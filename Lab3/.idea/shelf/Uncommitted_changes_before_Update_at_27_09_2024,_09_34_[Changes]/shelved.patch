@@ -1,0 +1,11 @@
+Index: ../README.md
+===================================================================
+diff --git a/../README.md b/../README.md
+deleted file mode 100644
+--- a/../README.md	(revision 86d4953d43487bb22d32a4d0539e2e0cbb3ca6b0)
++++ /dev/null	(revision 86d4953d43487bb22d32a4d0539e2e0cbb3ca6b0)
+@@ -1,4 +0,0 @@
+-# Mobile Applications. Labs
+-
+-## Lab 1 - Installation of Android Development Environment. Creating simple app from template. (Code in progress...)
+-## Lab 2 - ToDo App ([Code](https://github.com/VolodymyrPastukhAndriiovych/MobileApplicationLabs/tree/master/Lab2))

@@ -1,0 +1,8 @@
+Index: ../README.md
+===================================================================
+diff --git a/../README.md b/../README.md
+deleted file mode 100644
+--- a/../README.md	(revision f5ca1b6f9d132af3ab92677378428ef1ec708162)
++++ /dev/null	(revision f5ca1b6f9d132af3ab92677378428ef1ec708162)
+@@ -1,1 +0,0 @@
+-# MobileApplicationLabs
