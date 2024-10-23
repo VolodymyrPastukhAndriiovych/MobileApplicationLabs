@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
  * [database] - has property of database in the main constructor
  */
 class SubjectDetailsViewModel(
-    private val database: Lab5Database
+    private val database: Lab5Database,
 ) : ViewModel() {
 
     /**

@@ -32,6 +32,7 @@ val appModule = module {
         - get<Lab5Database>() - function gets the instance of database which is created above
 
      */
-    viewModel { SubjectsListViewModel(get<Lab5Database>()) }
-    viewModel { SubjectDetailsViewModel(get<Lab5Database>()) }
+
+    viewModel { SubjectsListViewModel(get()) }
+    viewModel { SubjectDetailsViewModel(get()) }
 }
