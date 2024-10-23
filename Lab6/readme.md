@@ -6,8 +6,8 @@
 АПІ https://openweathermap.org/api
 > АПІ є обмежено доступне, деякі реквести можна робити лише якщо підключити банківську карту.
 > Безкоштовні реквести, яких буде достатньо для виконання лабораторної можете знайти тут
-> Current Weather - https://openweathermap.org/current
-> Weather Forecast - https://openweathermap.org/forecast5
+> - Current Weather - https://openweathermap.org/current
+> - Weather Forecast - https://openweathermap.org/forecast5
 
 #### Вимоги
 
