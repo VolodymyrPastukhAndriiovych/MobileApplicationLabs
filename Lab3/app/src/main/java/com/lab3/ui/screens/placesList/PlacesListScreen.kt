@@ -1,5 +1,6 @@
 package com.lab3.ui.screens.placesList
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,10 +53,16 @@ fun PlacesListScreen(
                             .fillMaxWidth()
                             .weight(1f)
                             .padding(top = 12.dp)
-                            .clickable {
-                                // Invocation of redirection function to open details screen and show item with the following id
+                            .clickable(
+                                interactionSource = null,
+                                indication = LocalIndication.current,
+                            ) {
                                 onDetailsScreen(item.id)
                             }
+//                            .clickable {
+//                                // Invocation of redirection function to open details screen and show item with the following id
+//                                onDetailsScreen(item.id)
+//                            }
                     )
                 }
             }

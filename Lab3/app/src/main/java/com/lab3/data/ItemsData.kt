@@ -6,7 +6,7 @@ package com.lab3.data
  */
 object ItemsData {
     // Static list with the items of Item
-    val itemsList = listOf(
+    val itemsList: List<Item> = listOf(
         Item(1, "Title 1", "Description 1"),
         Item(2, "Title 2", "Description 2"),
         Item(3, "Title 3", "Description 3"),

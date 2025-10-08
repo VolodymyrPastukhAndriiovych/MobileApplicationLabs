@@ -12,20 +12,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lab3.data.ItemsData
+import com.lab3.ui.navigation.PlaceListDetailsRoute
+import com.lab3.ui.navigation.PlaceListRoute
 
 /**
  * PlaceDetailsScreen - the second screen in app with the details of selected item
- * - [id]: Int - the id parameter to find and show corresponding item on screen
+ * - [route]: PlaceListDetailsRoute - the NavKey parameter which includes id to find and show corresponding item on screen
  */
 @Composable
 fun PlaceDetailsScreen(
-    id: Int,
+    route: PlaceListDetailsRoute,
 ) {
     // State with the item
     val itemState = remember {
         mutableStateOf(
             // Finding the item by id in shared data source ItemsData.itemsList
-            ItemsData.itemsList.first { it.id == id }
+            ItemsData.itemsList.first { it.id == route.id }
         )
     }
 
@@ -52,6 +54,6 @@ fun PlaceDetailsScreen(
 @Composable
 fun PlaceDetailsScreenPreview() {
     PlaceDetailsScreen(
-        id = 3
+        route = PlaceListDetailsRoute(id = 3)
     )
 }

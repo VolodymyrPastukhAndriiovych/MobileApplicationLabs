@@ -1,65 +1,75 @@
+@file:OptIn(ExperimentalMaterial3AdaptiveApi::class)
+
 package com.lab3.ui.navigation
 
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
+import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
+import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import com.lab3.ui.screens.placeDetails.PlaceDetailsScreen
 import com.lab3.ui.screens.placesList.PlacesListScreen
+import kotlinx.serialization.Serializable
 
 // Constants with path (links) for screens
-const val SCREEN_PLACE_LIST = "placeList"
-const val SCREEN_PLACE_DETAILS = "placeDetails"
+@Serializable
+data object PlaceListRoute : NavKey
+
+@Serializable
+data class PlaceListDetailsRoute(val id: Int) : NavKey
 
 /**
  * NavigationGraph - composable function, is just a container with navigation logic
- * - [navController]: NavHostController - the object to make navigation requests (navigateTo(), navigateUp(), etc)
  */
+
 @Composable
 fun NavigationGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
 ) {
     /**
-     * NavHost - container for navigation of many screens
-     * - [startDestination] - the first screen which has to be shown
+     * backStack - the stack with navigation routes
+     * - [PlaceListRoute] - the first screen which has to be shown
      */
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = SCREEN_PLACE_LIST
-    ) {
-        // composable - the container for certain screen
-        composable(
-            route = SCREEN_PLACE_LIST, // route - the path of this screen
-        ) {
-            // Invocation of screen function
-            PlacesListScreen(
-                onDetailsScreen = { id ->
-                    // navigation to details screen with parameter ID
-                    navController.navigate("$SCREEN_PLACE_DETAILS/$id")
-                }
-            )
-        }
+    val backStack = rememberNavBackStack(PlaceListRoute)
 
-        composable(
-            route = "$SCREEN_PLACE_DETAILS/{id}", // route - the path with parameter
-            arguments = listOf(
-                // arguments - declaration of arguments
-                navArgument("id") {
-                    type = NavType.Companion.IntType
-                    nullable = false
-                },
-            )
-        ) { backStack ->
-            // backStack - includes info of arguments which was sent to this screen
-            PlaceDetailsScreen(
-                id = backStack.arguments?.getInt("id") ?: -1 // parsing of arguments to open screen with parameter ID
-            )
+    /**
+     * NavDisplay - container manager for stack
+     * - [backStack] - the backStack above
+     * - [entryDecorators] - the default implementation of some navigation logic (e.g transition animations between screens) just copy as it is
+     * - [entryProvider] - the provider which contains declarations of Route -> @Composable Screen()
+     *      here you define the logic of creating the composable screens for each Route (NavKey)
+     */
+    NavDisplay(
+        modifier = modifier,
+        backStack = backStack,
+        entryDecorators = listOf(
+            rememberSavedStateNavEntryDecorator(),
+            rememberSceneSetupNavEntryDecorator()
+        ),
+        entryProvider = entryProvider {
+            // For PlaceListRoute -> PlacesListScreen(...)
+            entry<PlaceListRoute> {
+                PlacesListScreen(
+                    // function of screen to open new screen with details and send there parameter ID
+                    onDetailsScreen = { id ->
+                        backStack.add(PlaceListDetailsRoute(id))
+                    }
+                )
+            }
+            // For PlaceListDetailsRoute -> PlaceDetailsScreen(...)
+            // the NavDisplay manages routes by itself
+            // so... under the hood --> PlaceListDetailsRoute -> PlaceDetailsScreen(PlaceListDetailsRoute(id))
+            entry<PlaceListDetailsRoute> { route -> PlaceDetailsScreen(route) }
         }
-    }
+    )
 }
