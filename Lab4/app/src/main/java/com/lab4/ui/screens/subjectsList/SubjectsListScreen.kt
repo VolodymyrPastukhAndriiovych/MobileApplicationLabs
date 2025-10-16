@@ -1,5 +1,6 @@
 package com.lab4.ui.screens.subjectsList
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,7 +34,7 @@ fun SubjectsListScreen(
     val subjectsListState = remember { mutableStateOf<List<SubjectEntity>>(emptyList()) }
 
     /** ! Important !
-        LaunchEffect(){...} - is the side effect which allows make operations in another thread (for accessing to DB)
+    LaunchEffect(){...} - is the side effect which allows make operations in another thread (for accessing to DB)
      *  This example LaunchEffect(Unit) - means that the operations inside will be performed only once on creating the screen
      */
     LaunchedEffect(Unit) {
@@ -53,7 +54,10 @@ fun SubjectsListScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
-                        .clickable { onDetailsScreen(it.id) }
+                        .clickable(
+                            interactionSource = null,
+                            indication = LocalIndication.current,
+                        ) { onDetailsScreen(it.id) }
                 )
             }
         }

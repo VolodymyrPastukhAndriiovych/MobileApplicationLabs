@@ -20,11 +20,12 @@ import androidx.compose.ui.unit.sp
 import com.lab4.data.db.DatabaseStorage
 import com.lab4.data.entity.SubjectEntity
 import com.lab4.data.entity.SubjectLabEntity
+import com.lab4.ui.navigation.SubjectDetailsRoute
 import com.lab4.ui.theme.Lab4Theme
 
 @Composable
 fun SubjectDetailsScreen(
-    id: Int,
+    route: SubjectDetailsRoute,
 ) {
     // Context - object which contains info about your app, has access to storage
     // is used for Room DB initialization
@@ -42,9 +43,9 @@ fun SubjectDetailsScreen(
      */
     LaunchedEffect(Unit) {
         // fetching the Subject from DB by id (subjectsDao is used)
-        subjectState.value = db.subjectsDao.getSubjectById(id)
+        subjectState.value = db.subjectsDao.getSubjectById(route.id)
         // fetching the Labs from DB by subject id (subjectLabsDao is used)
-        subjectLabsState.value = db.subjectLabsDao.getSubjectLabsBySubjectId(id)
+        subjectLabsState.value = db.subjectLabsDao.getSubjectLabsBySubjectId(route.id)
     }
 
     // UI of screen
@@ -100,6 +101,6 @@ fun SubjectDetailsScreen(
 @Composable
 private fun SubjectDetailsScreenPreview() {
     Lab4Theme {
-        SubjectDetailsScreen(1)
+        SubjectDetailsScreen(SubjectDetailsRoute(1))
     }
 }
