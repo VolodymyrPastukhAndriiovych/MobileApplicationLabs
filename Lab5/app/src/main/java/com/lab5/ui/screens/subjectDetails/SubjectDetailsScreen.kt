@@ -15,13 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lab5.ui.navigation.SubjectDetailsRoute
 import com.lab5.ui.theme.Lab5Theme
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SubjectDetailsScreen(
-    viewModel: SubjectDetailsViewModel = getViewModel(), // initialization of viewModel by koin function getViewModel()
-    id: Int,
+    route: SubjectDetailsRoute,
+    viewModel: SubjectDetailsViewModel = koinViewModel(), // initialization of viewModel by koin function koinViewModel()
 ) {
     // Converting StateFlows to Compose States (from ViewModel to Compose Screen)
     val subjectState = viewModel.subjectStateFlow.collectAsState()
@@ -31,7 +32,7 @@ fun SubjectDetailsScreen(
         LaunchEffect(){...} - run code inside once at starting of screen
     */
     LaunchedEffect(Unit) {
-        viewModel.initData(id)
+        viewModel.initData(route.id)
     }
 
     Column(

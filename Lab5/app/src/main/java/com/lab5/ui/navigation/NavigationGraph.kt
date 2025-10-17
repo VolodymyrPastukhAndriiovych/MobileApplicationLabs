@@ -2,50 +2,45 @@ package com.lab5.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import com.lab5.ui.screens.subjectDetails.SubjectDetailsScreen
 import com.lab5.ui.screens.subjectsList.SubjectsListScreen
+import kotlinx.serialization.Serializable
 
 
-const val SCREEN_SUBJECTS_LIST = "subjectsList"
-const val SCREEN_SUBJECT_DETAILS = "subjectDetails"
+@Serializable
+data object SubjectsListRoute : NavKey
+
+@Serializable
+data class SubjectDetailsRoute(val id: Int) : NavKey
 
 @Composable
 fun NavigationGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
 ) {
+    val backStack = rememberNavBackStack(SubjectsListRoute)
 
-    NavHost(
+    NavDisplay(
         modifier = modifier,
-        navController = navController,
-        startDestination = SCREEN_SUBJECTS_LIST
-    ) {
-
-        composable(
-            route = SCREEN_SUBJECTS_LIST
-        ) {
-            SubjectsListScreen { id ->
-                navController.navigate("$SCREEN_SUBJECT_DETAILS/$id")
+        backStack = backStack,
+        entryDecorators = listOf(
+            rememberSavedStateNavEntryDecorator(),
+            rememberSceneSetupNavEntryDecorator()
+        ),
+        entryProvider = entryProvider {
+            entry<SubjectsListRoute> {
+                SubjectsListScreen(
+                    onDetailsScreen = { id ->
+                        backStack.add(SubjectDetailsRoute(id))
+                    }
+                )
             }
+            entry<SubjectDetailsRoute> { route -> SubjectDetailsScreen(route) }
         }
-
-        composable(
-            route = "$SCREEN_SUBJECT_DETAILS/{id}",
-            arguments = listOf(
-                navArgument("id") {
-                    type = NavType.IntType
-                    nullable = false
-                },
-            )
-        ) { backStack ->
-            SubjectDetailsScreen(id = backStack.arguments?.getInt("id") ?: 0)
-        }
-
-    }
+    )
 }

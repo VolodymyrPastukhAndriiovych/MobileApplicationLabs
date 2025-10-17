@@ -1,13 +1,15 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
     // [KSP] To enable KSP plugin for Room DB in whole project find `build.gradle.kts` file in the root and see rows[5-6]
     id("com.google.devtools.ksp") // enabling the KSP plugin for app here
 }
 
 android {
     namespace = "com.vovan.lab5"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.vovan.lab5"
@@ -32,17 +34,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -71,17 +70,16 @@ dependencies {
 
 
     // Connecting Navigation Component library to project
-    val nav_version = "2.8.1"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
-
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+    implementation(libs.kotlinx.serialization.core)
     // Connecting Room database library to project
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    ksp("androidx.room:room-compiler:$room_version") // [KSP] to enable KSP look at the rows[4-5] of this file
-    implementation("androidx.room:room-ktx:$room_version")
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler) // [KSP] to enable KSP look at the rows[4-5] of this file
+    implementation(libs.androidx.room.ktx)
 
     // DI Koin
-    implementation("io.insert-koin:koin-android:3.4.0")
-    implementation("io.insert-koin:koin-android-ext:3.0.1")
-    implementation("io.insert-koin:koin-androidx-compose:3.4.4")
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 }

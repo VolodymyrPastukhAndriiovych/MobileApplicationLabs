@@ -1,5 +1,6 @@
 package com.lab5.ui.screens.subjectsList
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,27 +16,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lab5.ui.theme.Lab5Theme
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SubjectsListScreen(
-    viewModel: SubjectsListViewModel = getViewModel(),
+    viewModel: SubjectsListViewModel = koinViewModel(), // initialization of viewModel by koin function koinViewModel()
     onDetailsScreen: (Int) -> Unit,
 ) {
+    // Converting StateFlows to Compose States (from ViewModel to Compose Screen)
     val subjectsListState = viewModel.subjectListStateFlow.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         LazyColumn {
-            items(subjectsListState.value) {
+            items(subjectsListState.value) { subject ->
                 Text(
-                    text = it.title,
+                    text = subject.title,
                     fontSize = 28.sp,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
-                        .clickable { onDetailsScreen(it.id) }
+                        .clickable(
+                            interactionSource = null,
+                            indication = LocalIndication.current,
+                        ) { subject.id?.let { id -> onDetailsScreen(id) } }
                 )
             }
         }
