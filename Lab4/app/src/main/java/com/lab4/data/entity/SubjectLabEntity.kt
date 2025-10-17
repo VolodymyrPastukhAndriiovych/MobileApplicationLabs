@@ -2,6 +2,7 @@ package com.lab4.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 /**
@@ -12,9 +13,19 @@ import androidx.room.PrimaryKey
  * (there are more configurations of tables relations, which you can learn by yourself)
  * - contains other fields with primitive values
  */
-@Entity(tableName = "subjectsLabs")
+@Entity(
+    tableName = "subjectsLabs",
+    foreignKeys = [
+        ForeignKey(
+            entity = SubjectEntity::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("subject_id"),
+            onUpdate = ForeignKey.CASCADE,
+            onDelete = ForeignKey.CASCADE
+        )]
+)
 data class SubjectLabEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = "subject_id") val subjectId: Int,
     val title: String,
     val description: String,

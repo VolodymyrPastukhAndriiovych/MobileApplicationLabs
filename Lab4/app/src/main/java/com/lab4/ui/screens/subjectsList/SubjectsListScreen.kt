@@ -47,9 +47,9 @@ fun SubjectsListScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         LazyColumn {
-            items(subjectsListState.value) {
+            items(subjectsListState.value) { subject ->
                 Text(
-                    text = it.title,
+                    text = subject.title,
                     fontSize = 28.sp,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -57,7 +57,7 @@ fun SubjectsListScreen(
                         .clickable(
                             interactionSource = null,
                             indication = LocalIndication.current,
-                        ) { onDetailsScreen(it.id) }
+                        ) { subject.id?.let { id -> onDetailsScreen(id) } }
                 )
             }
         }

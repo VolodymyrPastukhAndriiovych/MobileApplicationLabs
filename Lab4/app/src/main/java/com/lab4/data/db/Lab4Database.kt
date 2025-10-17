@@ -75,16 +75,15 @@ object DatabaseStorage {
     private fun preloadData() {
         // List of subjects
         val listOfSubject = listOf(
-            SubjectEntity(id = 1, title = "Subject 1"),
-            SubjectEntity(id = 2, title = "Subject 2"),
-            SubjectEntity(id = 3, title = "Subject 3"),
-            SubjectEntity(2, "Subject 2"),
-            SubjectEntity(3, "Subject 3"),
+            SubjectEntity(title = "Subject 1"),
+            SubjectEntity(title = "Subject 2"),
+            SubjectEntity(title = "Subject 3"),
+            SubjectEntity(title = "Subject 4"),
+            SubjectEntity(title = "Subject 5"),
         )
         // List of labs
         val listOfSubjectLabs = listOf(
             SubjectLabEntity(
-                id = 1,
                 subjectId = 1,
                 title = "Lab[1] title",
                 description = "Lab[1] description",
@@ -92,24 +91,21 @@ object DatabaseStorage {
                 isCompleted = true,
             ),
             SubjectLabEntity(
-                id = 2,
                 subjectId = 1,
                 title = "Lab[2] title",
                 description = "Lab[2] description",
                 inProgress = true,
             ),
             SubjectLabEntity(
-                id = 3,
                 subjectId = 1,
                 title = "Lab[3] title",
                 description = "Lab[3] description",
             ),
             SubjectLabEntity(
-                id = 1,
-                subjectId = 2,
-                title = "Lab[1] title",
-                description = "Lab[1] description",
-                comment = "Lab[1] comment"
+                subjectId = 3,
+                title = "Lab[4] title",
+                description = "Lab[4] description",
+                comment = "Lab[4] comment"
             ),
         )
 
