@@ -13,14 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lab6.ui.components.WeatherMainCustomView
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
 fun WeatherForecastScreen(
-    viewModel: WeatherForecastScreenViewModel = getViewModel()
+    viewModel: WeatherForecastScreenViewModel = koinViewModel()
 ) {
     val weatherForecastResponseState = viewModel.weatherForecastResponseStateFlow.collectAsState()
 
